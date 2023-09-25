@@ -1,0 +1,58 @@
+name: Pull translations
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Create new branch
+        run: |
+          CURRENT_DATE=$(date +'%Y-%m-%d')
+          NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
+          git checkout -b "$NEW_BRANCH_NAME"
+          git push --set-upstream origin "$NEW_BRANCH_NAME"
+
+      - name: Pull the translations
+        run: |
+          make locale tx-pull
+          git add .
+          git commit -m "Pull translations from Transifex"
+          git push origin "$NEW_BRANCH_NAME"
+
+      - name: Create Pull Request
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: repo } = await github.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            await github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Pull translations from Transifex",
+              head: context.repo.owner + ":" + context.payload.repository.name + "/$NEW_BRANCH_NAME",
+              base: repo.default_branch
+            });

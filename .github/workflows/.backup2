@@ -1,0 +1,46 @@
+name: Pull translations
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hammer-cli-foreman-google
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: [2.7]
+
+    steps:
+      - name: Get hammer-cli-foreman-google
+        uses: actions/checkout@v2
+        with:
+          path: hammer-cli-foreman-google
+
+      - name: "Run action"
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+        run: |
+          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          echo "Installed yay"
+          #./tx init
+          mkdir -p ./.tx
+          echo "[main]" > ./.tx/config
+          echo "host = https://rest.api.transifex.com" >> ./.tx/config
+          echo "token = $TX_TOKEN" >> ./.tx/config
+          cat ./.tx/config
+
+          #echo "[main]" > ~/.transifexrc
+          #echo "token = $TX_TOKEN" >> ~/.transifexrc
+          #echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
+
+          #rm -rf ./.tx
+          ./tx pull --force
+          echo "-------------------------------------"
+          echo "-------------------------------------"
+          echo "-------------------------------------"
+          git add locale
+          git status

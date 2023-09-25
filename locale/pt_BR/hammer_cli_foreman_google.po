@@ -28,19 +28,19 @@ msgstr ""
 "1000000 == 0 ? 1 : 2;\n"
 
 msgid "Volume size in GB, integer value"
-msgstr "Tamanho do volume em GB, valor inteiro"
+msgstr ""
 
 msgid "Key Path"
-msgstr "Caminho da chave"
+msgstr ""
 
 msgid "Zone"
-msgstr "Zona"
+msgstr ""
 
 msgid "Machine Type"
-msgstr "Tipo de máquina"
+msgstr ""
 
 msgid "Status"
-msgstr "Estado"
+msgstr ""
 
 msgid "Description"
-msgstr "Descrição"
+msgstr ""

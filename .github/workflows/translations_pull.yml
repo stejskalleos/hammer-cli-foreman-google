@@ -1,62 +1,76 @@
-name: Pull translations
+name: Translations
 
 on:
   workflow_dispatch:
-
+env:
+  branch_name: "translate-${{ github.run_id }}"
 jobs:
-  build:
+  update:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        ruby-version: [2.7]
+    defaults:
+      run:
+        working-directory: hammer-cli-foreman-google
 
     steps:
-      - name: Checkout code
+      - name: Get hammer-cli
+        uses: actions/checkout@v4
+        with:
+          repository: stejskalleos/hammer-cli
+          ref: ls/tx-update-ubuntu
+          path: hammer-cli
+          
+      - name: Get hammer-cli-foreman-google
         uses: actions/checkout@v2
+        with:
+          path: hammer-cli-foreman-google
+
+      - name: Install Transifex dependencies
+        run: |
+          sudo apt-get -y install gettext
+          
+      - name: "Install Transifex"
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+        run: |
+          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          sudo mv tx /usr/local/bin/
+          sudo chown -R runner:runner /usr/local/bin
+
+      - name: Configure repository
+        run: |
+          echo "gemspec path: '../hammer-cli', name: 'hammer_cli'" > Gemfile.local.rb
+          mkdir -p ./.tx
+          echo "[main]" > ./.tx/config
+          echo "host = https://rest.api.transifex.com" >> ./.tx/config
+          echo "token = $TX_TOKEN" >> ./.tx/config
 
       - name: Set up Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
-
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle install
-
+          ruby-version: "2.7"
+          bundler-cache: true
+          working-directory: hammer-cli-foreman-google
+          
       - name: Set up Git
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          
+          git checkout -b $branch_name
 
-      - name: Create new branch
+          # TODO: Is this needed?
+          echo ".tx/*" >> .gitignore
+          echo "vendor/*" >> .gitignore
+          
+      - name: Pull translations
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |
-          CURRENT_DATE=$(date +'%Y-%m-%d')
-          NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
-          git checkout -b "$NEW_BRANCH_NAME"
-          git push --set-upstream origin "$NEW_BRANCH_NAME"
-
-      - name: Pull the translations
+          bundle exec rake tx:update
+   
+      - name: Push changes and create a pull request
         run: |
-          make locale tx-pull
-          git add .
-          git commit -m "Pull translations from Transifex"
-          git push origin "$NEW_BRANCH_NAME"
-
-      - name: Create Pull Request
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: repo } = await github.repos.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-            await github.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: "Pull translations from Transifex",
-              head: context.repo.owner + ":" + context.payload.repository.name + "/$NEW_BRANCH_NAME",
-              base: repo.default_branch
-            });
+          git push --set-upstream origin $branch_name
+          gh pr create --title "Pull request title" --body "Pull request body"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -26,19 +26,19 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Volume size in GB, integer value"
-msgstr "卷大小，以 GB 为单位的整数值"
+msgstr ""
 
 msgid "Key Path"
-msgstr "密钥路径"
+msgstr ""
 
 msgid "Zone"
-msgstr "区"
+msgstr ""
 
 msgid "Machine Type"
-msgstr "机器型号"
+msgstr ""
 
 msgid "Status"
-msgstr "状态"
+msgstr ""
 
 msgid "Description"
-msgstr "描述"
+msgstr ""

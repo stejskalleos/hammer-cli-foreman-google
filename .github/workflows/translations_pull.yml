@@ -56,24 +56,10 @@ jobs:
           NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
           # make locale tx-pull
           echo "Test" >> test.txt
-          git add .
+          #git add .
           git status
-          git commit -m "Pull translations from Transifex"
-          git push --set-upstream origin "$NEW_BRANCH_NAME"
-
-      - name: Create Pull Request
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: repo } = await github.repos.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-            await github.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: "Pull translations from Transifex",
-              head: context.repo.owner + ":" + context.payload.repository.name + "/$NEW_BRANCH_NAME",
-              base: repo.default_branch
-            });
+          git remote -v
+          pwd
+          ls -a
+          #git commit -m "Pull translations from Transifex"
+          #git push --set-upstream origin "$NEW_BRANCH_NAME"

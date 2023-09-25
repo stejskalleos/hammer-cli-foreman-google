@@ -48,14 +48,16 @@ jobs:
           CURRENT_DATE=$(date +'%Y-%m-%d')
           NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
           git checkout -b "$NEW_BRANCH_NAME"
-          git push --set-upstream origin "$NEW_BRANCH_NAME"
+          git branch --set-upstream-to=origin/"$NEW_BRANCH_NAME"
 
       - name: Pull the translations
         run: |
-          make locale tx-pull
+          # make locale tx-pull
+          echo "Test" >> test.txt
           git add .
+          git status
           git commit -m "Pull translations from Transifex"
-          git push origin "$NEW_BRANCH_NAME"
+          git push
 
       - name: Create Pull Request
         uses: actions/github-script@v5

@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Get hammer-cli
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          repository: theforeman/hammer-cli
-          ref: master
+          repository: stejskalleos/hammer-cli
+          ref: ls/tx-update-ubuntu
           path: hammer-cli
           
       - name: Get hammer-cli-foreman-google
@@ -63,7 +63,6 @@ jobs:
           git status
           
       - name: Pull translations
-        shell: bash
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |

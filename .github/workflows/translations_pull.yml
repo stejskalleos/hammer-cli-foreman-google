@@ -30,9 +30,11 @@ jobs:
           mkdir -p ./.tx
           echo "[main]" > ./.tx/config
           echo "hostname = https://rest.api.transifex.com" >> ./.tx/config
+          echo "token = $TX_TOKEN" >> ./.tx/config
+          cat ./.tx/config
 
-          echo "[main]" > ~/.transifexrc
-          echo "token = $TX_TOKEN" >> ~/.transifexrc
+          #echo "[main]" > ~/.transifexrc
+          #echo "token = $TX_TOKEN" >> ~/.transifexrc
           #echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
 
           #rm -rf ./.tx

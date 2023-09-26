@@ -63,6 +63,7 @@ jobs:
           git status
           
       - name: Pull translations
+        shell: bash
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |

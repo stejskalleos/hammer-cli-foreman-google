@@ -13,12 +13,15 @@ jobs:
 
     steps:
       - name: "Run action"
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
           echo "Installed yay"
 
           echo "[main]" > ~/.transifexrc
-          echo "token = ${{ secrets.TX_TOKEN }}" >> ~/.transifexrc
+          echo $TX_TOKEN
+          echo "token = $TX_TOKEN" >> ~/.transifexrc
           echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
 
           ./tx pull

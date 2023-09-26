@@ -6,12 +6,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hammer-cli-foreman-google
     strategy:
       fail-fast: false
       matrix:
         ruby-version: [2.7]
 
     steps:
+      - name: Get hammer-cli-foreman-google
+        uses: actions/checkout@v2
+        with:
+          path: hammer-cli-foreman-google
+          
       - name: "Run action"
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
@@ -20,7 +28,6 @@ jobs:
           echo "Installed yay"
 
           echo "[main]" > ~/.transifexrc
-          echo $TX_TOKEN
           echo "token = $TX_TOKEN" >> ~/.transifexrc
           echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
 

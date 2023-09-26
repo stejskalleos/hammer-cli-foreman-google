@@ -15,14 +15,6 @@ jobs:
         ruby-version: [2.7]
 
     steps:
-      - name: "Install Transifex"
-        env:
-          TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: |
-          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
-          sudo mv $(pwd)/tx /usr/local/bin/
-          sudo chown -R runner:runner /usr/local/bin
-
       - name: Get hammer-cli
         uses: actions/checkout@v2
         with:
@@ -35,6 +27,14 @@ jobs:
         with:
           path: hammer-cli-foreman-google
           
+      - name: "Install Transifex"
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+        run: |
+          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          sudo mv tx /usr/local/bin/
+          sudo chown -R runner:runner /usr/local/bin
+
       - name: Configure repository
         run: |
           echo "gemspec path: '../hammer-cli', name: 'hammer_cli'" > Gemfile.local.rb

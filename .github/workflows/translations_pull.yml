@@ -29,7 +29,7 @@ jobs:
           #./tx init
           mkdir -p ./.tx
           echo "[main]" > ./.tx/config
-          echo "hostname = https://rest.api.transifex.com" >> ./.tx/config
+          echo "host = https://rest.api.transifex.com" >> ./.tx/config
           echo "token = $TX_TOKEN" >> ./.tx/config
           cat ./.tx/config
 

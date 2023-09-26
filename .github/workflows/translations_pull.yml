@@ -1,10 +1,10 @@
-name: Pull translations
+name: Translations
 
 on:
   workflow_dispatch:
 
 jobs:
-  translate:
+  update:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -57,8 +57,31 @@ jobs:
 
           CURRENT_DATE=$(date +'%Y-%m-%d')
           NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
+          echo ".tx/*" >> .gitignore
+          echo "vendor/*" >> .gitignore
           git checkout -b "$NEW_BRANCH_NAME"
           git status
-
+          
+      - name: Pull translations
+        run: |
+          cd locale
+          make tx-update
+          
+      - name: Create Pull Request
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: repo } = await github.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            await github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Pull Request for $NEW_BRANCH_NAME",
+              head: context.repo.owner + ":" + context.payload.repository.name + "/$NEW_BRANCH_NAME",
+              base: repo.default_branch
+            });
 
 

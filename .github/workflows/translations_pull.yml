@@ -38,5 +38,5 @@ jobs:
           pwd
           ls -al
           echo "--------------------------------------------------"
-          ls -al ./tx
+          ls -al ./.tx
           cat .gitignore

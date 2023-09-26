@@ -20,4 +20,7 @@ jobs:
           echo "[main]" > ./.tx/config
           echo "token = ${{ secrets.TX_TOKEN }}"  >> ./.tx/config
           echo "rest_hostname = https://rest.api.transifex.com" >> ./.tx/config
+
+          cat ./.tx/config
           ./tx pull
+          git status

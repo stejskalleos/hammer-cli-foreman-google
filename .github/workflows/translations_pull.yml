@@ -34,7 +34,7 @@ jobs:
           echo "host = https://rest.api.transifex.com" >> ./.tx/config
           echo "token = $TX_TOKEN" >> ./.tx/config
 
-          txt --help
+          tx --help
 
 
 

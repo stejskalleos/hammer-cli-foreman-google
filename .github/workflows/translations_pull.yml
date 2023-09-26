@@ -15,5 +15,5 @@ jobs:
       - name: "Run action"
         run: |
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
-          echo ${{ secrets.TX_TOKEN }}
-          tx pull --token ${{ secrets.TX_TOKEN }} --hostname "https://rest.api.transifex.com"
+          echo "Installed yay"
+          ./tx pull --token ${{ secrets.TX_TOKEN }} --hostname "https://rest.api.transifex.com"

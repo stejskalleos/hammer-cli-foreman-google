@@ -20,7 +20,7 @@ jobs:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
-          sudo mv tx /usr/local/bin/
+          sudo mv $(pwd)/tx /usr/local/bin/
           sudo chown -R runner:runner /usr/local/bin
 
       - name: Get hammer-cli

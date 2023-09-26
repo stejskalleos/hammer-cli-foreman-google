@@ -18,4 +18,4 @@ jobs:
           echo "Installed yay"
           export TX_TOKEN=${{ secrets.TX_TOKEN }}
           export TX_HOSTNAME="https://rest.api.transifex.com"
-          ./tx pull
+          ./tx --token='${{ secrets.TX_TOKEN }}' --hostname "https://rest.api.transifex.com" pull

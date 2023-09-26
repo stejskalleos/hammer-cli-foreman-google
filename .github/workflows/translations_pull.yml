@@ -32,11 +32,11 @@ jobs:
           echo "token = $TX_TOKEN" >> ~/.transifexrc
           echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
 
-          ./tx pull -f
+          rm -rf ./.tx
+          ./tx pull --force
+          echo "-------------------------------------"
+          echo "-------------------------------------"
+          echo "-------------------------------------"
           git add locale
           git status
-          pwd
-          ls -al
-          echo "--------------------------------------------------"
-          ls -al ./.tx
-          cat .gitignore
+

@@ -19,13 +19,5 @@ jobs:
       - name: Get hammer-cli-foreman-google
         uses: actions/checkout@v4          
       - name: "Run action"
-        with:
-            tx_token: ${{ secrets.TX_TOKEN }}
-            git_flow: true
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            translations_folder: locale
-            pull_translations: true
-            pull_sources: true
-            push_translations: false
-            push_sources: false
-        uses: docker://sergioisidoro/github-transifex-action:latest
+        run: |
+          echo ${{ secrets.TX_TOKEN }}

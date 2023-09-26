@@ -18,14 +18,20 @@ jobs:
         run: |
           pwd
           ls -al
-          echo '--------------------'
-          #curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          echo '----------install----------'
+          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          ls -al
+          sudo cp -R ./tr /usr/local/bin/
+          sudo chown -R runner:runner /usr/local/bin
+          
           echo '----------config----------'
 
-          #mkdir -p ./.tx
-          #echo "[main]" > ./.tx/config
-          #echo "host = https://rest.api.transifex.com" >> ./.tx/config
-          #echo "token = $TX_TOKEN" >> ./.tx/config
+          mkdir -p ./.tx
+          echo "[main]" > ./.tx/config
+          echo "host = https://rest.api.transifex.com" >> ./.tx/config
+          echo "token = $TX_TOKEN" >> ./.tx/config
+
+          txt --help
 
 
 

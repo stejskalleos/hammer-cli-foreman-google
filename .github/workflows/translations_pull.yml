@@ -17,10 +17,7 @@ jobs:
     steps:
          
       - name: Get hammer-cli-foreman-google
-        uses: actions/checkout@v4
-        with:
-          path: hammer-cli-foreman-google
-          
+        uses: actions/checkout@v4          
       - name: "Run action"
         with:
             tx_token: ${{ secrets.TX_TOKEN }}
@@ -31,5 +28,4 @@ jobs:
             pull_sources: true
             push_translations: false
             push_sources: false
-            path: hammer-cli-foreman-google
         uses: docker://sergioisidoro/github-transifex-action:latest

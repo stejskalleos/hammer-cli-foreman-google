@@ -73,6 +73,7 @@ jobs:
           cd locale
           make tx-update
       - name: create pull request
-        run: gh pr create -B master -H $NEW_BRANCH_NAME --title 'Test' --body 'Created by Github action'
+        run: |
+          gh pr create --base master --title "Update translations"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

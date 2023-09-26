@@ -63,6 +63,8 @@ jobs:
           git status
           
       - name: Pull translations
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |
           cd locale
           make tx-update

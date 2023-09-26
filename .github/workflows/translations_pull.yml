@@ -26,11 +26,12 @@ jobs:
         run: |
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
           echo "Installed yay"
+          source ~/.bashrc
+          tx init
 
           echo "[main]" > ~/.transifexrc
           echo "token = $TX_TOKEN" >> ~/.transifexrc
           echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
 
-          ./tx init
-          ./tx pull
+          tx pull
           git status

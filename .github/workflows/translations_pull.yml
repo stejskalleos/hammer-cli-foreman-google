@@ -75,9 +75,8 @@ jobs:
           make tx-update
       - name: create pull request
         run: |
-          git push --set-upstream origin tx-pull-2023-09-26
-          # $NEW_BRANCH should be set in the top
-          # git push --set-upstream origin $NEW_BRANCH_NAME
-          gh pr create --base master --fill-first
+          CURRENT_DATE=$(date +'%Y-%m-%d')
+          NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
+          git push --set-upstream origin $NEW_BRANCH_NAME
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

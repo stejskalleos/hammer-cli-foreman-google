@@ -19,14 +19,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: hammer-cli-foreman-google
-          
+
       - name: "Run action"
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
           echo "Installed yay"
-          source ~/.bashrc
+          source /home/runner/.bashrc
           tx init
 
           echo "[main]" > ~/.transifexrc

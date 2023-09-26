@@ -21,6 +21,5 @@ jobs:
           echo "token = ${{ secrets.TX_TOKEN }}" >> ~/.transifexrc
           echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
 
-          cat ./.tx/config
           ./tx pull
           git status

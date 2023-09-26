@@ -74,6 +74,6 @@ jobs:
           make tx-update
       - name: create pull request
         run: |
-          gh pr create --base master --fill-first
+          gh pr create --base master --fill-first --head
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

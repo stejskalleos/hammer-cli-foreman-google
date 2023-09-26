@@ -74,6 +74,6 @@ jobs:
           make tx-update
       - name: create pull request
         run: |
-          gh pr create --base master --title "Update translations"
+          gh pr create --base master --fill-first
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

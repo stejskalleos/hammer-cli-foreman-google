@@ -15,51 +15,21 @@ jobs:
         ruby-version: [2.7]
 
     steps:
-      - name: Get hammer-cli
-        uses: actions/checkout@v2
-        with:
-          repository: theforeman/hammer-cli
-          ref: master
-          path: hammer-cli
-          
+         
       - name: Get hammer-cli-foreman-google
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: hammer-cli-foreman-google
           
-      - name: Configure local gem dependencies
-        run: |
-          echo "gemspec path: '../hammer-cli', name: 'hammer_cli'" > Gemfile.local.rb
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: "Run action"
         with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
-          working-directory: hammer-cli-foreman-google
-          
-      - name: Set up Git
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-
-      - name: Create new branch
-        run: |
-          CURRENT_DATE=$(date +'%Y-%m-%d')
-          NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
-          git checkout -b "$NEW_BRANCH_NAME"
-          #git branch --set-upstream-to=origin/"$NEW_BRANCH_NAME"
-
-      - name: Pull the translations
-        run: |
-          CURRENT_DATE=$(date +'%Y-%m-%d')
-          NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
-          # make locale tx-pull
-          echo "Test" >> test.txt
-          #git add .
-          git status
-          git remote -v
-          pwd
-          ls -a
-          #git commit -m "Pull translations from Transifex"
-          #git push --set-upstream origin "$NEW_BRANCH_NAME"
+            tx_token: ${{ secrets.TX_TOKEN }}
+            git_flow: true
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            translations_folder: locale
+            pull_translations: true
+            pull_sources: true
+            push_translations: false
+            push_sources: false
+            path: hammer-cli-foreman-google
+        uses: docker://sergioisidoro/github-transifex-action:latest

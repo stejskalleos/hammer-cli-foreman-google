@@ -72,8 +72,7 @@ jobs:
         run: |
           cd locale
           make tx-update
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-            base: master
+      - name: create pull request
+        run: gh pr create -B master -H $NEW_BRANCH_NAME --title 'Test' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

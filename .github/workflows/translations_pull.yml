@@ -58,6 +58,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git config --global push.default simple
 
           CURRENT_DATE=$(date +'%Y-%m-%d')
           NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
@@ -74,6 +75,7 @@ jobs:
           make tx-update
       - name: create pull request
         run: |
-          gh pr create --base master --fill-first --head
+          git push 
+          gh pr create --base master --fill-first
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -24,7 +24,7 @@ jobs:
           echo '----------cp----------'
           pwd
           ls -al
-          sudo cp tr /usr/local/bin/
+          sudo cp tx /usr/local/bin/
           sudo chown -R runner:runner /usr/local/bin
           
           echo '----------config----------'

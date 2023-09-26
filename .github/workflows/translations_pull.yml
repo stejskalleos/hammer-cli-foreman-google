@@ -16,10 +16,10 @@ jobs:
         run: |
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
           echo "Installed yay"
-          ./tx init
-          echo "[main]" > ./.tx/config
-          echo "token = ${{ secrets.TX_TOKEN }}"  >> ./.tx/config
-          echo "host = https://rest.api.transifex.com" >> ./.tx/config
+
+          echo "[main]" > ~/.transifexrc
+          echo "token = ${{ secrets.TX_TOKEN }}" >> ~/.transifexrc
+          echo "rest_hostname = https://rest.api.transifex.com" >> ~/.transifexrc
 
           cat ./.tx/config
           ./tx pull

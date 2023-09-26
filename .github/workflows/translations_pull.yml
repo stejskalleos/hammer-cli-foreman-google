@@ -16,4 +16,6 @@ jobs:
         run: |
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
           echo "Installed yay"
-          ./tx pull --token ${{ secrets.TX_TOKEN }} --hostname "https://rest.api.transifex.com"
+          export TX_TOKEN=${{ secrets.TX_TOKEN }}
+          export TX_HOSTNAME="https://rest.api.transifex.com"
+          ./tx pull

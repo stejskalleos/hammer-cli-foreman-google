@@ -48,15 +48,14 @@ jobs:
         with:
           ruby-version: "2.7"
           bundler-cache: true
-
+          working-directory: hammer-plugin
       - name: Set up Git
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config user.name "Foreman Translation action"
+          git config user.email "noreply@foreman.example.com"
 
           git checkout -b $branch_name
 
-          # TODO: Is this needed?
           echo ".tx/*" >> .gitignore
           echo "vendor/*" >> .gitignore
 

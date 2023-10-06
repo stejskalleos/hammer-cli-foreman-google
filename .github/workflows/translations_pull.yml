@@ -10,5 +10,5 @@ jobs:
     with:
       plugin_name: "hammer-cli-foreman-google"
     secrets:
-      tx_token: "${{ secrets.GITHUB_TOKEN }}"
-      gh_token: "${{ secrets.TX_TOKEN }}"
+      tx_token: "${{ secrets.TX_TOKEN }}"
+      gh_token: "${{ secrets.GITHUB_TOKEN }}"

@@ -5,7 +5,7 @@ on:
 env:
   branch_name: "translate-${{ github.run_id }}"
 jobs:
-  update:
+  tx-update:
     runs-on: ubuntu-latest
     defaults:
       run:

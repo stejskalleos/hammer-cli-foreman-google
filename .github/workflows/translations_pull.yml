@@ -9,3 +9,6 @@ jobs:
     uses: stejskalleos/foreman_actions/.github/workflows/tx-hammer-plugins.yml@hammer-tx
     with:
       plugin_name: "hammer-cli-foreman-google"
+    secrets:
+      tx_token: "${{ secrets.GITHUB_TOKEN }}"
+      gh_token: "${{ secrets.TX_TOKEN }}"

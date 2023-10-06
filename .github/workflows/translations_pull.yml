@@ -1,73 +1,11 @@
-name: Translations
+name: Update translations
 
 on:
   workflow_dispatch:
-env:
-  branch_name: "translate-${{ github.run_id }}"
+
 jobs:
   tx-update:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: hammer-plugin
-
-    steps:
-      - name: Get hammer-cli
-        uses: actions/checkout@v4
-        with:
-          repository: theforeman/hammer-cli
-          ref: master
-          path: hammer-cli
-
-      - name: Get ${{ github.repository }}
-        uses: actions/checkout@v4
-        with:
-          path: hammer-plugin
-      - name: Install Transifex dependencies
-        run: |
-          sudo apt-get -y install gettext
-
-      - name: "Install Transifex"
-        env:
-          TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: |
-          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
-          sudo mv tx /usr/local/bin/
-          sudo chown -R runner:runner /usr/local/bin
-
-      - name: Configure plugin
-        run: |
-          echo "gemspec path: '../hammer-cli', name: 'hammer_cli'" > Gemfile.local.rb
-          mkdir -p ./.tx
-          echo "[main]" > ./.tx/config
-          echo "host = https://rest.api.transifex.com" >> ./.tx/config
-          echo "token = $TX_TOKEN" >> ./.tx/config
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "2.7"
-          bundler-cache: true
-          working-directory: hammer-plugin
-      - name: Set up Git
-        run: |
-          git config user.name "Foreman Translation action"
-          git config user.email "noreply@foreman.example.com"
-
-          git checkout -b $branch_name
-
-          echo ".tx/*" >> .gitignore
-          echo "vendor/*" >> .gitignore
-
-      - name: Pull translations
-        env:
-          TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: |
-          bundle exec rake tx:update
-
-      - name: Push changes and create a pull request
-        run: |
-          git push --set-upstream origin $branch_name
-          gh pr create --title "Translations" --body "Updated translation files"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    name: Update translations
+    uses: stejskalleos/actions/.github/workflows/release-gem.yml@hammer-tx
+    with:
+      plugin_name: hammer-cli-foreman-google

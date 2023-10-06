@@ -20,8 +20,9 @@ jobs:
           path: hammer-cli
 
       - name: Get ${{ github.repository }}
-        uses: actions/checkout@v2
-
+        uses: actions/checkout@v4
+        with:
+          path: hammer-plugin
       - name: Install Transifex dependencies
         run: |
           sudo apt-get -y install gettext

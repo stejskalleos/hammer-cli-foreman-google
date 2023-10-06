@@ -6,6 +6,6 @@ on:
 jobs:
   tx-update:
     name: Update translations
-    uses: stejskalleos/actions/.github/workflows/release-gem.yml@hammer-tx
+    uses: stejskalleos/actions/.github/workflows/tx-hammer-plugins.yml@hammer-tx
     with:
       plugin_name: hammer-cli-foreman-google

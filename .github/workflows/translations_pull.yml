@@ -68,6 +68,6 @@ jobs:
       - name: Push changes and create a pull request
         run: |
           git push --set-upstream origin $branch_name
-          gh pr create --title "Updating translations"
+          gh pr create --title "Updating translations" --fill-first  
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

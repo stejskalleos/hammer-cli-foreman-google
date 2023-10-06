@@ -2,17 +2,14 @@ name: Translations
 
 on:
   workflow_dispatch:
-
+env:
+  branch_name: "translate-${{ github.run_id }}"
 jobs:
   update:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: hammer-cli-foreman-google
-    strategy:
-      fail-fast: false
-      matrix:
-        ruby-version: [2.7]
 
     steps:
       - name: Get hammer-cli
@@ -27,7 +24,7 @@ jobs:
         with:
           path: hammer-cli-foreman-google
 
-      - name: Install gettext
+      - name: Install Transifex dependencies
         run: |
           sudo apt-get -y install gettext
           
@@ -50,7 +47,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
+          ruby-version: "2.7"
           bundler-cache: true
           working-directory: hammer-cli-foreman-google
           
@@ -58,25 +55,22 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git config --global push.default simple
+          
+          git checkout -b $branch_name
 
-          CURRENT_DATE=$(date +'%Y-%m-%d')
-          NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
+          # TODO: Is this needed?
           echo ".tx/*" >> .gitignore
           echo "vendor/*" >> .gitignore
-          git checkout -b "$NEW_BRANCH_NAME"
-          git status
           
       - name: Pull translations
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: |
-          cd locale
-          make tx-update
-      - name: create pull request
+          bundle exec rake tx:update
+   
+      - name: Push changes and create a pull request
         run: |
-          CURRENT_DATE=$(date +'%Y-%m-%d')
-          NEW_BRANCH_NAME="tx-pull-$CURRENT_DATE"
-          git push --set-upstream origin $NEW_BRANCH_NAME
+          git push --set-upstream origin $branch_name
+          gh pr create --title "Pull request title" --body "Pull request body"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,9 +1,3 @@
 [main]
-host = https://app.transifex.com
-
-[o:foreman:p:foreman:r:hammer_cli_foreman_google]
-file_filter = locale/<lang>/hammer_cli_foreman_google.edit.po
-source_file = locale/hammer_cli_foreman_google.pot
-source_lang = en
-type = PO
-resource_name = hammer_cli_foreman_google
+host = https://rest.api.transifex.com
+token = 1/be4946880c47084dc66d8a9df65438a47e01f26e

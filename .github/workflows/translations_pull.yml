@@ -6,9 +6,9 @@ on:
 jobs:
   tx-update:
     name: Update translations
-    uses: stejskalleos/foreman_actions/.github/workflows/tx-hammer-plugins.yml@hammer-tx
+    uses: stejskalleos/foreman_actions/.github/workflows/tx-hammer-plugins.yml@hammer-tx-test
     with:
-      plugin_name: "hammer-cli-foreman-google"
+      gem_name: "hammer-cli-foreman-google"
     secrets:
       tx_token: "${{ secrets.TX_TOKEN }}"
       gh_token: "${{ secrets.GITHUB_TOKEN }}"

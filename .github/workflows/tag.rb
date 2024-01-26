@@ -3,7 +3,7 @@ name: Tag
 on:
   push:
     paths:
-      - "lib/foreman_plugin/version.rb"
+      - "lib/hammer_cli_foreman_google.rb/version.rb"
 
 jobs:
   release:

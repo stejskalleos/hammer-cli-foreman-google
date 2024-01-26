@@ -2,8 +2,9 @@ name: Tag
 
 on:
   push:
+    branches: ['master']
     paths:
-      - "lib/hammer_cli_foreman_google/version.rb"
+      - "lib/**/version.rb"
 
 jobs:
   release:
